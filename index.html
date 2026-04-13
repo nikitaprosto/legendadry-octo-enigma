@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Даша ❤️ С днём рождения!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1);
+      --glass-bg: rgba(255, 255, 255, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.9);
+      --text-main: #4a3b3c;
+      --text-accent: #d81b60;
+      --shadow: 0 8px 32px rgba(216, 27, 96, 0.15);
+      --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Comfortaa', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Фоновые частицы */
+    #particles-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .particle { position: absolute; opacity: 0.6; animation: fall linear infinite; will-change: transform, opacity; }
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Основной контейнер */
+    .container { position: relative; z-index: 2; width: 90vw; max-width: 560px; height: 90vh; max-height: 800px; display: flex; flex-direction: column; justify-content: center; padding: 20px; }
+
+    /* Слайды */
+    .slide { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: 0; transform: translateY(30px) scale(0.95); pointer-events: none; transition: var(--transition); }
+    .slide.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+    /* Карточка */
+    .card { background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 2px solid var(--glass-border); border-radius: 24px; padding: clamp(20px, 4vw, 32px); box-shadow: var(--shadow); width: 100%; max-height: 85vh; overflow-y: auto; }
+    .card h1, .card h2 { font-family: 'Cormorant Garamond', serif; color: var(--text-accent); margin-bottom: 16px; line-height: 1.2; }
+    .card h1 { font-size: clamp(28px, 5vw, 36px); }
+    .card h2 { font-size: clamp(24px, 4vw, 32px); }
+    .card p { margin: 8px 0; font-size: clamp(14px, 2.5vw, 17px); line-height: 1.5; }
+    .highlight { color: var(--text-accent); font-weight: 600; margin-top: 12px; }
+    blockquote { font-style: italic; border-left: 3px solid var(--text-accent); padding-left: 12px; margin: 16px 0; color: #5a4b4c; }
+
+    /* Счётчик */
+    .counter { background: rgba(255,255,255,0.6); border-radius: 16px; padding: 12px; margin: 16px 0; font-size: clamp(13px, 2vw, 15px); line-height: 1.6; }
+    .counter strong { color: var(--text-accent); font-size: 1.1em; }
+
+    /* Кнопки */
+    .btn { background: linear-gradient(135deg, #ec407a, #d81b60); color: white; border: none; padding: 14px 28px; border-radius: 50px; font-family: inherit; font-weight: 600; font-size: clamp(14px, 2.5vw, 16px); cursor: pointer; margin-top: 24px; box-shadow: 0 4px 12px rgba(216, 27, 96, 0.3); transition: var(--transition); position: relative; overflow: hidden; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(216, 27, 96, 0.4); }
+    .btn:active { transform: scale(0.96); }
+
+    /* 🎂 Интерактивный торт */
+    .cake-wrapper {
+      margin: 30px auto 10px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s;
+      width: 180px;
+      height: 160px;
+    }
+    .cake-wrapper:active { transform: scale(0.95); }
+    
+    .plate {
+      width: 160px; height: 10px; background: #e0e0e0; border-radius: 5px;
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .layer { position: absolute; left: 50%; transform: translateX(-50%); border-radius: 8px; }
+    .layer.bottom { width: 140px; height: 45px; background: #ff80ab; bottom: 10px; border-bottom: 4px solid #c2185b; }
+    .layer.top { width: 120px; height: 40px; background: #ffcdd2; bottom: 55px; border-bottom: 4px solid #e91e63; z-index: 2; }
+    .layer::after { content: ''; position: absolute; top: -4px; left: -2px; right: -2px; height: 4px; background: #fff; border-radius: 4px; }
+
+    /* Свечи */
+    .candle {
+      position: absolute; top: 65px; width: 10px; height: 35px;
+      background: repeating-linear-gradient(45deg, #fff, #fff 4px, #4fc3f7 4px, #4fc3f7 8px);
+      border-radius: 2px; z-index: 3; box-shadow: inset -2px 0 2px rgba(0,0,0,0.1);
+    }
+    .c1 { left: 40px; } .c2 { left: 85px; } .c3 { left: 130px; }
+    
+    /* Пламя */
+    .flame {
+      position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+      width: 12px; height: 18px; background: #ffca28; border-radius: 50% 50% 20% 20%;
+      box-shadow: 0 0 12px 4px rgba(255, 160, 0, 0.6);
+      animation: flicker 0.5s infinite alternate;
+      transform-origin: bottom center;
+    }
+    @keyframes flicker {
+      0% { transform: translateX(-50%) scale(1) rotate(-2deg); opacity: 0.9; }
+      100% { transform: translateX(-50%) scale(1.1) rotate(2deg); opacity: 1; }
+    }
+    
+    /* Дым и эффект гашения */
+    .smoke {
+      position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
+      width: 6px; height: 6px; background: #ccc; border-radius: 50%;
+      opacity: 0; pointer-events: none;
+    }
+    .cake-wrapper.extinguished .flame {
+      animation: none;
+      transform: translateX(-50%) scale(0);
+      opacity: 0;
+      transition: all 0.3s ease-out;
+    }
+    .cake-wrapper.extinguished .smoke {
+      animation: smokeRise 1.5s ease-out forwards;
+    }
+    @keyframes smokeRise {
+      0% { transform: translateX(-50%) scale(1); opacity: 0.8; top: -20px; }
+      100% { transform: translateX(-50%) scale(4); opacity: 0; top: -60px; }
+    }
+
+    /* Скрытое сообщение */
+    #cake-message {
+      opacity: 0; transform: translateY(20px); transition: all 0.8s ease;
+      margin-top: 20px;
+    }
+    #cake-message.visible { opacity: 1; transform: translateY(0); }
+
+    /* Конфетти */
+    .confetti { position: fixed; pointer-events: none; z-index: 99; }
+    
+    /* Адаптив */
+    @media (max-height: 600px) { .container { height: auto; min-height: 100vh; } }
+  </style>
+</head>
+<body>
+
+  <div id="particles-container"></div>
+
+  <main class="container">
+    <section class="slide active" id="slide1">
+      <div class="card">
+        <h1>Даша ❤️ С днём рождения!</h1>
+        <p>🎀✨ Дашенька, привет! 🌷</p>
+        <p>Ты родилась 14 апреля 2004 🌷</p>
+        <div id="age-counter" class="counter">Загружаем магию времени...</div>
+        <p class="highlight">✨ с того самого мгновения ✨</p>
+        <p>💖 Каждая минута без тебя — потерянная, каждая с тобой — бесценна.</p>
+      </div>
+      <button class="btn next-btn" data-target="slide2">➡️ Далее ⬅️</button>
+    </section>
+
+    <section class="slide" id="slide2">
+      <div class="card">
+        <p style="font-size: 32px;">💗💞💗</p>
+        <h2>Ты — моя вселенная ⭐</h2>
+        <p>🌸 Твоя улыбка сияет ярче звёзд</p>
+        <p>🌸 Твой смех лечит любую грусть</p>
+        <p>💎 Ты делаешь этот мир лучше</p>
+        <blockquote>«Я искал сокровища, а нашёл тебя.<br>Ты — самое ценное, что есть у меня, Даша.»</blockquote>
+      </div>
+      <button class="btn next-btn" data-target="slide3">💖 Дальше 💖</button>
+    </section>
+
+    <section class="slide" id="slide3">
+      <div class="card final">
+        <h2>Загадай желание! ✨</h2>
+        <p>Нажми на тортик, чтобы задуть свечи...</p>
+        
+        <!-- Интерактивный торт -->
+        <div class="cake-wrapper" id="interactive-cake">
+          <div class="plate"></div>
+          <div class="layer bottom"></div>
+          <div class="layer top"></div>
+          <div class="candle c1"><div class="flame"></div><div class="smoke"></div></div>
+          <div class="candle c2"><div class="flame"></div><div class="smoke"></div></div>
+          <div class="candle c3"><div class="flame"></div><div class="smoke"></div></div>
+        </div>
+
+        <!-- Сообщение после задувания -->
+        <div id="cake-message">
+          <p class="highlight" style="font-size: 20px; margin-bottom: 10px;">🎂 Пусть желание сбудется! 🎂</p>
+          <p style="font-size: 16px;">Ты самая лучшая, Даша!</p>
+          <p class="signature">❤️ С любовью, твой Данияр ❤️</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // 1. Счётчик возраста
+    const birthDate = new Date(2004, 3, 14, 0, 0, 0);
+    function updateAge() {
+      const now = new Date();
+      let y = now.getFullYear() - birthDate.getFullYear();
+      let m = now.getMonth() - birthDate.getMonth();
+      let d = now.getDate() - birthDate.getDate();
+      let h = now.getHours() - birthDate.getHours();
+      let min = now.getMinutes() - birthDate.getMinutes();
+      let s = now.getSeconds() - birthDate.getSeconds();
+
+      if (s < 0) { s += 60; min--; }
+      if (min < 0) { min += 60; h--; }
+      if (h < 0) { h += 24; d--; }
+      if (d < 0) { const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate(); d += prevMonth; m--; }
+      if (m < 0) { m += 12; y--; }
+
+      document.getElementById('age-counter').innerHTML = `🎂 <strong>${y}</strong> лет 📆 <strong>${m}</strong> мес ⏱️ <strong>${d}</strong> дней<br>🕛 <strong>${h}</strong> часов ⏲️ <strong>${min}</strong> минут 🕰️ <strong>${s}</strong> секунд`;
+    }
+    setInterval(updateAge, 1000); updateAge();
+
+    // 2. Навигация
+    document.querySelectorAll('.next-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const current = btn.closest('.slide');
+        const next = document.getElementById(btn.dataset.target);
+        current.classList.remove('active');
+        setTimeout(() => next.classList.add('active'), 50);
+      });
+    });
+
+    // 3. Логика торта и свечей
+    const cake = document.getElementById('interactive-cake');
+    const cakeMsg = document.getElementById('cake-message');
+    let isBlown = false;
+
+    cake.addEventListener('click', () => {
+      if (!isBlown) {
+        isBlown = true;
+        cake.classList.add('extinguished');
+        createConfetti();
+        setTimeout(() => cakeMsg.classList.add('visible'), 400);
+      } else {
+        createConfetti(); // Можно дуть конфетти повторно
+      }
+    });
+
+    // Конфетти
+    function createConfetti() {
+      const colors = ['#ff4081', '#ff80ab', '#f8bbd0', '#ffcdd2', '#e91e63', '#ffe0b2'];
+      for (let i = 0; i < 80; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.top = '-10px';
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.width = (Math.random() * 8 + 4) + 'px';
+        el.style.height = (Math.random() * 8 + 4) + 'px';
+        el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        document.body.appendChild(el);
+
+        const duration = Math.random() * 2000 + 1500;
+        const xDrift = (Math.random() - 0.5) * 100;
+        
+        el.animate([
+          { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+          { transform: `translate(${xDrift}px, 100vh) rotate(${Math.random()*360}deg)`, opacity: 0 }
+        ], { duration, easing: 'cubic-bezier(0.25, 1, 0.5, 1)', fill: 'forwards' });
+
+        setTimeout(() => el.remove(), duration);
+      }
+    }
+
+    // 4. Частицы
+    const particlesContainer = document.getElementById('particles-container');
+    const shapes = ['❤️', '✨', '🌸', '🌷', '⭐', '💖'];
+    function spawnParticle() {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (Math.random() * 6 + 4) + 's';
+      p.style.fontSize = (Math.random() * 12 + 12) + 'px';
+      particlesContainer.appendChild(p);
+      setTimeout(() => p.remove(), 10000);
+    }
+    setInterval(spawnParticle, 400);
+  </script>
+</body>
+</html>
